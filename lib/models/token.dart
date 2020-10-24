@@ -1,4 +1,3 @@
-
 class Token {
   String accessToken;
   String tokenType;
@@ -48,6 +47,7 @@ class Token {
     'expires_in': expiresIn,
     'refresh_token': refreshToken,
     'scope': scope,
+    'expiration_date': expirationDate.millisecondsSinceEpoch,
   };
 
   Token.fromJson(Map<String, dynamic> json) {

@@ -1,15 +1,13 @@
+import 'package:twitch_clone/auth/auth.dart';
+import 'package:twitch_clone/models/models.dart';
 import 'package:twitch_clone/services/storage.dart';
 
-import '../auth/exceptions/oauth2_exception.dart';
-import '../auth/oauth2_client.dart';
-import '../models/token.dart';
 
 class TokenManager {
   final String name;
-  final Oauth2Client client;
-  final TokenStorage storage;
+  final Oauth2Client _client;
+  final TokenStorage _storage;
 
-  Map<String, String> headers;
   Token _token;
   int _secondsToExpiration = 30;
 
@@ -23,7 +21,11 @@ class TokenManager {
             name: name, client: client, storage: storage));
   }
 
-  TokenManager._internal({this.name, this.client, this.storage});
+  TokenManager._internal(
+      {String name, Oauth2Client client, TokenStorage storage})
+      : this.name = name,
+        this._client = client,
+        this._storage = storage;
 
   Future<void> getToken() async {
     await _readToken();
@@ -35,14 +37,17 @@ class TokenManager {
     }
   }
 
-  Future<void> getTokenFromStorage() {
-    return _readToken();
+  Future<void> getTokenFromStorage() async {
+    await _readToken();
+    if(needRefresh) {
+      await refreshToken();
+    }
   }
 
   Future<bool> authenticate() async {
-    Map<String, dynamic> tokenResponse = await this.client.authenticate();
+    Map<String, dynamic> tokenResponse = await this._client.authenticate();
     _token = Token.fromJson(tokenResponse);
-    storage.write(_token);
+    _storage.write(_token);
     return true;
   }
 
@@ -51,7 +56,7 @@ class TokenManager {
     Map<String, dynamic> tokenResponse;
 
     try {
-      tokenResponse = await this.client.refreshToken(_token.refreshToken);
+      tokenResponse = await this._client.refreshToken(_token.refreshToken);
     } catch (_) {
       return await authenticate();
     }
@@ -61,7 +66,7 @@ class TokenManager {
     } else if (tokenResponse.containsKey('error')) {
       if (tokenResponse['error'] == 'invalid_grant') {
         //The refresh token is expired too
-        await storage.deleteToken();
+        await _storage.deleteToken();
         //Fetch another access token
         return await authenticate();
       } else {
@@ -74,20 +79,20 @@ class TokenManager {
         tokenResponse['refresh_token'] = _token.refreshToken;
       }
       _token = Token.fromJson(tokenResponse);
-      await storage.write(_token);
+      await _storage.write(_token);
     }
   }
 
   Future<void> logOut() async {
-    await storage.deleteToken();
+    await _storage.deleteToken();
   }
 
   Future<void> _readToken() async {
-    _token = await storage.read();
+    _token = await _storage.read();
   }
 
   Map<String, String> getHeaders() {
-    return {'Authorization': 'Bearer $token', 'Client-Id': ''};
+    return {'Authorization': 'Bearer $token', 'Client-Id': _client.clientId};
   }
 
   set secondsToExpiration(int value) {

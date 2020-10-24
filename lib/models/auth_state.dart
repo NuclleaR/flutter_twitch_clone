@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:twitch_clone/constants/auth.dart';
 
-import '../constants/auth.dart';
 
 class AuthState with ChangeNotifier {
   AuthStatus _status = AuthStatus.notAuthenticated;

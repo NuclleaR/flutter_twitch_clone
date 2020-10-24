@@ -1,12 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:social_buttons/social_buttons.dart';
-import 'package:twitch_clone/auth/google_oauth2_client.dart';
-import 'package:twitch_clone/auth/twitch_oauth2_client.dart';
-import 'package:twitch_clone/models/auth.dart';
-import 'package:twitch_clone/services/manager_factory.dart';
-import 'package:twitch_clone/services/storage.dart';
-import 'package:twitch_clone/services/token_manager.dart';
+import 'package:twitch_clone/models/models.dart';
+import 'package:twitch_clone/services/services.dart';
 
 class LoginView extends StatelessWidget {
   final TokenManager tokenManager =

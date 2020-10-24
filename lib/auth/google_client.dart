@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:uni_links/uni_links.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:uni_links/uni_links.dart';
+// import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart';
 
 @deprecated
@@ -25,12 +25,12 @@ class GoogleClient {
       'client_id': _clientId,
     }).toString();
 
-    if (await canLaunch(authUrl)) {
-      _subscribe(successCb);
-      launch(authUrl);
-    } else {
-      throw 'Could not launch $authUrl';
-    }
+    // if (await canLaunch(authUrl)) {
+    //   _subscribe(successCb);
+    //   launch(authUrl);
+    // } else {
+    //   throw 'Could not launch $authUrl';
+    // }
   }
 
   Future<Map<String, Object>> _fetchToken(String code) async {
@@ -49,18 +49,18 @@ class GoogleClient {
       print('Caught error: $err');
       throw err;
     } finally {
-      closeWebView();
+      // closeWebView();
     }
   }
 
   _subscribe(Function(Map<String, Object>) successCb) {
-    _sub = getUriLinksStream().listen((Uri link) {
-      _fetchToken(link.queryParameters['code']).then(successCb);
-      _sub.cancel();
-    }, onError: (err) {
-      print('Err:');
-      print(err);
-    });
+    // _sub = getUriLinksStream().listen((Uri link) {
+    //   _fetchToken(link.queryParameters['code']).then(successCb);
+    //   _sub.cancel();
+    // }, onError: (err) {
+    //   print('Err:');
+    //   print(err);
+    // });
   }
 
   set scopes(String value) {

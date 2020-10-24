@@ -1,4 +1,3 @@
-
 class OAuth2Exception implements Exception {
   String error;
   String errorDescription;

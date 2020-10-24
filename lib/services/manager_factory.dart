@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:twitch_clone/auth/auth.dart';
 
-import '../auth/twitch_oauth2_client.dart';
 import 'storage.dart';
 import 'token_manager.dart';
 
