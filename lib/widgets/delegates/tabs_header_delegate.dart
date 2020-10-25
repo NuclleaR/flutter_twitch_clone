@@ -1,15 +1,19 @@
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+import 'package:twitch_clone/store/states.dart';
 
 class TabsHeader extends SliverPersistentHeaderDelegate {
   final double _height = 32.0;
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    var theme = context.read<AppSate>().theme;
+
     return Container(
       height: _height,
-      // decoration: BoxDecoration(
-      //   color: CupertinoColors.systemTeal,
-      // ),
+      decoration: BoxDecoration(
+        color: theme.background,
+      ),
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       child: CupertinoSlidingSegmentedControl(
         thumbColor: const Color.fromARGB(255, 145, 70, 255),

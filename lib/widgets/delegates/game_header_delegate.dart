@@ -51,6 +51,8 @@ class GamePageHeader extends SliverPersistentHeaderDelegate {
         CupertinoNavigationBar(
             backgroundColor: CupertinoColors.systemBackground,
             border: null,
+            // TODO implement
+            // brightness: ,
             middle: AnimatedOpacity(
               child: Text(game.name),
               duration: Duration(milliseconds: 200),

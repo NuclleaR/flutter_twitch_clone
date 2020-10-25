@@ -7,8 +7,9 @@ import 'package:twitch_clone/store/app_state.dart';
 import 'package:twitch_clone/widgets/widgets.dart';
 
 class GamesGrid extends StatelessWidget {
-  void _handleTap(Game game, BuildContext context) {
-    Navigator.pushNamed(context, '/streams-list', arguments: game);
+  void _handleTap(Game game, BuildContext context) async {
+    await Navigator.pushNamed(context, '/streams-list', arguments: game);
+    context.read<GameBloc>().fetchTopGames();
   }
 
   List<Widget> _getGamesList(List<Game> list, BuildContext context) {
@@ -25,17 +26,17 @@ class GamesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(Provider.of<AppSate>(context).activeTab == 0) {
-      Provider.of<GameBloc>(context).fetchTopGames();
+    if(Provider.of<AppSate>(context, listen: false).activeTab == 0) {
+      Provider.of<GameBloc>(context, listen: false).fetchTopGames();
     }
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: StreamBuilder(
-        stream: Provider.of<GameBloc>(context).games,
+        stream: Provider.of<GameBloc>(context, listen: false).games,
         builder: (_, AsyncSnapshot<List<Game>> snapshot) {
           if (snapshot.hasError) {
-            Provider.of<AuthState>(context).logout();
+            Provider.of<AuthState>(context, listen: false).logout();
           }
           if (snapshot.hasData) {
             return GridView.count(

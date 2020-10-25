@@ -13,8 +13,7 @@ class StreamsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Game game = ModalRoute.of(context).settings.arguments;
-
-    var theme = context.watch<AppSate>().theme;
+    var theme = Provider.of<AppSate>(context, listen: false).theme;
 
     return CupertinoPageScaffold(
       child: CustomScrollView(
@@ -27,8 +26,9 @@ class StreamsListView extends StatelessWidget {
               delegate: TabsHeader()),
           SliverFillRemaining(
               child: Container(
+                padding: EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: CupertinoColors.systemPink
+                  color: theme.background
                 ),
                 child: Text("Hello"),
               ))
