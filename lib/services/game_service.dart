@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart';
+import 'package:twitch_clone/constants/api.dart';
 import 'package:twitch_clone/models/models.dart';
 import 'package:twitch_clone/responses/responses.dart';
 
@@ -9,20 +10,16 @@ import 'manager_factory.dart';
 import 'token_manager.dart';
 
 class GameService {
-  final String apiUrl = 'https://api.twitch.tv/helix';
-  final String legacyApiUrl = 'https://api.twitch.tv/kraken';
+  final String apiUrl = '$API_URL/games/top';
 
   TokenManager tokenManager = getManager(TokenManagerType.twitchTokenManager);
 
   Future<GamesResponse> getGames({Map<String, String> queryParameters}) async {
     try {
       Response response = await get(
-          Uri.parse('$legacyApiUrl/games/top')
+          Uri.parse(apiUrl)
               .replace(queryParameters: queryParameters),
-          headers: {
-            'Accept': 'application/vnd.twitchtv.v5+json',
-            ...tokenManager.getHeaders(),
-          });
+          headers: tokenManager.getHeaders());
 
       var rawResponse = jsonDecode(response.body);
 

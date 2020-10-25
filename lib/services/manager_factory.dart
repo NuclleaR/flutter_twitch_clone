@@ -12,7 +12,7 @@ Map<TokenManagerType, Map<String, dynamic>> _params = {
       clientId: "htjh1khsxsxj4ofsoxmiubct9iavxo",
       clientSecret: "o13lshhr4f74qavdl6adzk6anl3fy4",
       callbackUrlScheme: "com.example.twitchClone",
-      scopes: "user:read:email user:edit:follows",
+      scopes: "user:read:email user:edit:follows user_read",
     ),
     'storage': TokenStorage('twitchToken'),
   }

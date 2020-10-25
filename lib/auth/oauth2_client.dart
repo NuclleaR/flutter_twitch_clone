@@ -11,6 +11,7 @@ abstract class Oauth2Client {
 
   final String authUrl;
   final String tokenUrl;
+  final String revokeUrl;
 
   Oauth2Client(
       {this.clientId,
@@ -18,6 +19,7 @@ abstract class Oauth2Client {
       this.callbackUrlScheme,
       this.scopes,
       this.authUrl,
+      this.revokeUrl,
       this.tokenUrl});
 
   String getAuthUrl() {
@@ -36,6 +38,18 @@ abstract class Oauth2Client {
     String code = Uri.parse(result).queryParameters['code'];
     print(code);
     return await _getToken(code);
+
+  }
+
+  // Refreshes an Access Token issuing a refresh_token grant to the OAuth2 server.
+  Future<Map<String, dynamic>> refreshToken(String refreshToken) async {
+    final Map params = _getRefreshUrlParams(refreshToken);
+    final response = await _performAuthorizedRequest(params);
+    return jsonDecode(response.body);
+  }
+
+  Future<Response> revokeToken(String token) {
+    return post('$revokeUrl?client_id=$clientId&token=$token');
   }
 
   Future<Map<String, dynamic>> _getToken(String code) async {
@@ -55,15 +69,8 @@ abstract class Oauth2Client {
     return jsonDecode(response.body);
   }
 
-  Future<Response> _performAuthorizedRequest(Map<String, dynamic> params) async {
-    return await post(tokenUrl, body: params);
-  }
-
-  // Refreshes an Access Token issuing a refresh_token grant to the OAuth2 server.
-  Future<Map<String, dynamic>> refreshToken(String refreshToken) async {
-    final Map params = _getRefreshUrlParams(refreshToken);
-    final response = await _performAuthorizedRequest(params);
-    return jsonDecode(response.body);
+  Future<Response> _performAuthorizedRequest(Map<String, dynamic> params) {
+    return post(tokenUrl, body: params);
   }
 
   Map<String, String> _getRefreshUrlParams(String refreshToken) {
@@ -87,3 +94,7 @@ abstract class Oauth2Client {
     return params;
   }
 }
+
+// POST https://id.twitch.tv/oauth2/revoke
+//     ?client_id=<your client ID>
+//     &token=<your OAuth token>

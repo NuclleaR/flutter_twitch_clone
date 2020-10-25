@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:twitch_clone/constants/auth.dart';
+import 'package:twitch_clone/services/services.dart';
 
 
 class AuthState with ChangeNotifier {
   AuthStatus _status = AuthStatus.notAuthenticated;
-
+  final TokenManager tokenManager =
+    getManager(TokenManagerType.twitchTokenManager);
   AuthState();
 
   AuthState.withStatus(AuthStatus status) : this._status = status;
@@ -18,6 +20,7 @@ class AuthState with ChangeNotifier {
 
   void logout() {
     print('logout');
+    tokenManager.logOut();
     _status = AuthStatus.notAuthenticated;
     notifyListeners();
   }

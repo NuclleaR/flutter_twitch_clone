@@ -2,7 +2,6 @@ import 'package:twitch_clone/auth/auth.dart';
 import 'package:twitch_clone/models/models.dart';
 import 'package:twitch_clone/services/storage.dart';
 
-
 class TokenManager {
   final String name;
   final Oauth2Client _client;
@@ -39,7 +38,7 @@ class TokenManager {
 
   Future<void> getTokenFromStorage() async {
     await _readToken();
-    if(needRefresh) {
+    if (needRefresh) {
       await refreshToken();
     }
   }
@@ -84,7 +83,10 @@ class TokenManager {
   }
 
   Future<void> logOut() async {
+    await _client.revokeToken(_token.accessToken);
+    await _client.revokeToken(_token.refreshToken);
     await _storage.deleteToken();
+    _token = null;
   }
 
   Future<void> _readToken() async {
@@ -92,7 +94,11 @@ class TokenManager {
   }
 
   Map<String, String> getHeaders() {
-    return {'Authorization': 'Bearer $token', 'Client-Id': _client.clientId};
+    return {
+      'Authorization': 'Bearer $token',
+      'Client-Id': _client.clientId,
+      'Accept': 'application/vnd.twitchtv.v5+json',
+    };
   }
 
   set secondsToExpiration(int value) {

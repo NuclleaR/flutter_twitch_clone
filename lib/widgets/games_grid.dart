@@ -26,7 +26,8 @@ class GamesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(Provider.of<AppSate>(context, listen: false).activeTab == 0) {
+    print('Active tab: ${Provider.of<AppSate>(context, listen: false).activeTab}');
+    if (Provider.of<AppSate>(context, listen: false).activeTab == 0) {
       Provider.of<GameBloc>(context, listen: false).fetchTopGames();
     }
 

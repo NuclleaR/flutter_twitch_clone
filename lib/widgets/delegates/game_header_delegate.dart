@@ -56,7 +56,7 @@ class GamePageHeader extends SliverPersistentHeaderDelegate {
             middle: AnimatedOpacity(
               child: Text(game.name),
               duration: Duration(milliseconds: 200),
-              opacity: shrinkOffset + 92 > _height ? 1 : 0,
+              opacity: shrinkOffset + 108 > _height ? 1 : 0,
             )),
       ],
     );

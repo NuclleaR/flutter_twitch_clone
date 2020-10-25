@@ -8,6 +8,7 @@ import 'package:twitch_clone/services/services.dart';
 
 class GameBloc {
   List<Game> _games = [];
+  // Map<String, List<GameStream>>
   String _cursor;
 
   // Legacy data ======
