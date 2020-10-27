@@ -93,9 +93,9 @@ class TokenManager {
     _token = await _storage.read();
   }
 
-  Map<String, String> getHeaders() {
+  Map<String, String> getHeaders({ bool isLegacy = false }) {
     return {
-      'Authorization': 'Bearer $token',
+      'Authorization': isLegacy ? 'OAuth ' : 'Bearer ' + token,
       'Client-Id': _client.clientId,
       'Accept': 'application/vnd.twitchtv.v5+json',
     };

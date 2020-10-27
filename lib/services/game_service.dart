@@ -10,7 +10,7 @@ import 'manager_factory.dart';
 import 'token_manager.dart';
 
 class GameService {
-  final String apiUrl = '$API_URL/games/top';
+  final String apiUrl = '$LEGACY_API_URL/games/top';
 
   TokenManager tokenManager = getManager(TokenManagerType.twitchTokenManager);
 

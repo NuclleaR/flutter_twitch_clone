@@ -1,26 +1,13 @@
-class _CoverBox {
-  final String large;
-  final String medium;
-  final String small;
-  final String template;
 
-  _CoverBox({this.large, this.medium, this.small, this.template});
 
-  factory _CoverBox.fromMap(Map<String, dynamic> map) {
-    return _CoverBox(
-        large: map['large'],
-        medium: map['medium'],
-        small: map['small'],
-        template: map['template']);
-  }
-}
+import 'cover_box.dart';
 
 class Game {
   final int id;
   final int giantbombId;
   final String name;
-  final _CoverBox box;
-  final _CoverBox logo;
+  final CoverBox box;
+  final CoverBox logo;
   final String localizedName;
   final String locale;
 
@@ -44,8 +31,8 @@ class Game {
       id: game['_id'],
       name: game['name'],
       giantbombId: game['giantbomb_id'],
-      box: _CoverBox.fromMap(game['box']),
-      logo: _CoverBox.fromMap(game['logo']),
+      box: CoverBox.fromJson(game['box']),
+      logo: CoverBox.fromJson(game['logo']),
       localizedName: game['localized_name'],
       locale: game['locale'],
       channels: map['channels'],

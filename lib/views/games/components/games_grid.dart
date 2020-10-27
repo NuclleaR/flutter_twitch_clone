@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-
 import 'package:twitch_clone/blocs/blocs.dart';
 import 'package:twitch_clone/models/models.dart';
-import 'package:twitch_clone/store/app_state.dart';
-import 'package:twitch_clone/widgets/widgets.dart';
+import 'package:twitch_clone/store/states.dart';
+
+import 'game_cover.dart';
 
 class GamesGrid extends StatelessWidget {
   void _handleTap(Game game, BuildContext context) async {
@@ -26,7 +26,8 @@ class GamesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Active tab: ${Provider.of<AppSate>(context, listen: false).activeTab}');
+    print(
+        'Active tab: ${Provider.of<AppSate>(context, listen: false).activeTab}');
     if (Provider.of<AppSate>(context, listen: false).activeTab == 0) {
       Provider.of<GameBloc>(context, listen: false).fetchTopGames();
     }

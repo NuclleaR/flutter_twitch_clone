@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
                 value: AuthState.withStatus(authStatus)),
             ChangeNotifierProvider.value(value: AppSate()),
             Provider.value(value: GameBloc()),
+            Provider.value(value: StreamsBloc()),
           ],
           child: MainApp(this.authStatus),
         ));

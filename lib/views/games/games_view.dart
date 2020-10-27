@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:twitch_clone/blocs/blocs.dart';
 import 'package:twitch_clone/store/states.dart';
 import 'package:twitch_clone/views/views.dart';
-import 'package:twitch_clone/widgets/widgets.dart';
+
+import 'components/games_grid.dart';
 
 class GamesView extends StatelessWidget {
 
