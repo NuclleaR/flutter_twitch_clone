@@ -28,7 +28,12 @@ class GameService {
       if (response.statusCode == HttpStatus.ok) {
         var list = rawResponse['top'] as List;
         List<Game> games =
-            list.map((gameJson) => Game.fromJson(gameJson)).toList();
+            list.map((gameJson) {
+              Map<String, dynamic> json = Map.from(gameJson['game']);
+              json['viewers'] = gameJson['viewers'];
+              json['channels'] = gameJson['channels'];
+              return Game.fromJson(json);
+            }).toList();
         return GamesResponse(list: games, total: rawResponse['_total']);
         // return GamesResponse(games, rawResponse['pagination']['cursor']);
       } else {

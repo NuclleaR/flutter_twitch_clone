@@ -1,13 +1,19 @@
-
+import 'package:json_annotation/json_annotation.dart';
 
 import 'cover_box.dart';
 
+part 'legacy_game.g.dart';
+
+@JsonSerializable()
 class Game {
+  @JsonKey(name: '_id')
   final int id;
+  @JsonKey(name: 'giantbomb_id')
   final int giantbombId;
   final String name;
   final CoverBox box;
   final CoverBox logo;
+  @JsonKey(name: 'localized_name')
   final String localizedName;
   final String locale;
 
@@ -25,20 +31,9 @@ class Game {
       this.viewers,
       this.channels});
 
-  factory Game.fromJson(Map<String, dynamic> map) {
-    Map game = map['game'];
-    return Game(
-      id: game['_id'],
-      name: game['name'],
-      giantbombId: game['giantbomb_id'],
-      box: CoverBox.fromJson(game['box']),
-      logo: CoverBox.fromJson(game['logo']),
-      localizedName: game['localized_name'],
-      locale: game['locale'],
-      channels: map['channels'],
-      viewers: map['viewers'],
-    );
-  }
+  factory Game.fromJson(Map<String, dynamic> json) => _$GameFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GameToJson(this);
 
   @override
   String toString() {

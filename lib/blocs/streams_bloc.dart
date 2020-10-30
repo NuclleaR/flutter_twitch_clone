@@ -8,6 +8,7 @@ import 'package:twitch_clone/services/services.dart';
 class StreamsBloc {
   List<GameStream> _streams = [];
   String _cursor;
+  int _total;
 
   final StreamsService _streamsService = StreamsService();
   final _streamsFetcher = PublishSubject<List<GameStream>>();
@@ -16,9 +17,9 @@ class StreamsBloc {
 
   StreamSink<List<GameStream>> get _sink => _streamsFetcher.sink;
 
-  Future<void> fetchStreams(int gameId) async {
+  Future<void> fetchStreams(Game game) async {
     Map<String, String> params = {
-      'game_id': gameId.toString(),
+      'game': game.name,
       'first': '50',
       'language': 'ru',
       // 'after': _cursor,
@@ -28,6 +29,7 @@ class StreamsBloc {
       _streams = response.list;
       _sink.add(_streams);
       _cursor = response.cursor;
+      _total = response.total;
     } catch (ex) {
       _sink.addError(ex);
       print(ex);

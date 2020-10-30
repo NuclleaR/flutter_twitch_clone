@@ -24,12 +24,12 @@ class GameStream {
 
   factory GameStream.fromJson(Map<String, dynamic> json) {
     return GameStream(
-        id: json['id'],
-        userId: json['user_id'],
-        userName: json['user_name'],
-        gameId: json['game_id'],
-        type: json['type'],
-        title: json['title'],
+      id: json['id'],
+      userId: json['user_id'],
+      userName: json['user_name'],
+      gameId: json['game_id'],
+      type: json['type'],
+      title: json['title'],
       viewerCount: json['viewer_count'],
       startedAt: DateTime.parse(json['started_at']),
       language: json['language'],

@@ -14,16 +14,19 @@ class StreamsService {
   TokenManager tokenManager = getManager(TokenManagerType.twitchTokenManager);
 
   Future<StreamsResponse> getGameStreams(Map<String, String> params) async {
-    Uri uri = Uri.parse(apiUrl).replace(queryParameters: params);
-
+    Uri uri = Uri.parse(legacyApiUrl).replace(queryParameters: params);
+    print(uri);
     Response response = await get(uri, headers: tokenManager.getHeaders());
     Map<String, dynamic> json = jsonDecode(response.body);
 
     if (response.statusCode == HttpStatus.ok) {
-      var list = json['data'] as List;
-      List<GameStream> streams = list.map((streamJson) => GameStream.fromJson(streamJson)).toList();
+      var list = json['streams'] as List;
+      List<GameStream> streams = list.map((streamJson) {
+        return GameStream.fromJson(streamJson);
+      }).toList();
       return StreamsResponse(
-        cursor: json['pagination']['cursor'],
+        // cursor: json['pagination']['cursor'],
+        total: 900, // 900 value fromm doc
         list: streams,
       );
     } else {

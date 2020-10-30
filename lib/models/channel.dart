@@ -1,14 +1,24 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'channel.g.dart';
+
+@JsonSerializable()
 class Channel {
+  @JsonKey(name: '_id')
   final int id;
   final String status;
+  @JsonKey(name: 'display_name')
   final String displayName;
   final String name;
   final String game;
   final String description;
+  @JsonKey(name: 'broadcaster_language')
   final String broadcasterLanguage;
   final String language;
   final String logo;
+  @JsonKey(name: 'video_banner')
   final String videoBanner;
+  @JsonKey(name: 'profile_banner')
   final String profileBanner;
   final String url;
   final int views;
