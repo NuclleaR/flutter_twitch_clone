@@ -1,3 +1,6 @@
+import 'models.dart';
+import 'game_stream_data.dart';
+
 class GameStream {
   final String id;
   final String userId;
@@ -9,6 +12,8 @@ class GameStream {
   final DateTime startedAt;
   final String language;
   final String thumbnailUrl;
+  final List<Tag> tagList;
+  final User user;
 
   GameStream(
       {this.id,
@@ -20,22 +25,23 @@ class GameStream {
       this.viewerCount,
       this.startedAt,
       this.language,
+      this.tagList,
+      this.user,
       this.thumbnailUrl});
 
-  factory GameStream.fromJson(Map<String, dynamic> json) {
-    return GameStream(
-      id: json['id'],
-      userId: json['user_id'],
-      userName: json['user_name'],
-      gameId: json['game_id'],
-      type: json['type'],
-      title: json['title'],
-      viewerCount: json['viewer_count'],
-      startedAt: DateTime.parse(json['started_at']),
-      language: json['language'],
-      thumbnailUrl: (json['thumbnail_url'] as String)
-          .replaceFirst('{width}', '640')
-          .replaceFirst('{height}', '360'),
-    );
-  }
+  factory GameStream.fromData(
+          GameStreamData streamData, Map<String, Tag> tags, User user) =>
+      GameStream(
+          id: streamData.id,
+          userId: streamData.userId,
+          userName: streamData.userName,
+          gameId: streamData.gameId,
+          type: streamData.type,
+          title: streamData.title,
+          viewerCount: streamData.viewerCount,
+          startedAt: streamData.startedAt,
+          language: streamData.language,
+          thumbnailUrl: streamData.thumbnailUrl,
+          user: user,
+          tagList: streamData.tagIds.map((String id) => tags[id]).toList());
 }

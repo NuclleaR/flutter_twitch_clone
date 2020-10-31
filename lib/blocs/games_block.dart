@@ -26,19 +26,11 @@ class GameBloc {
 
   StreamSink<List<Game>> get _sink => _gamesFetcher.sink;
 
-  // StreamController _actionController = StreamController();
-
-  GameBloc() {
-    // _actionController.stream.listen(_changeStream);
-  }
-
-  // void _increaseStream(data) {
-  //   _counter += 1;
-  //   _addValue.add(_counter);
-  // }
+  GameBloc();
 
   Future<void> fetchTopGames () async {
     Map<String, String> params = {
+      // 'first': '50',
       'limit': _limit.toString(),
       'offset': _offset.toString(),
     };
@@ -46,7 +38,7 @@ class GameBloc {
     print('fetchTopGames');
 
     // if (_cursor != null) {
-      // params['after'] = _cursor;
+    //   params['after'] = _cursor;
     // }
 
     try {

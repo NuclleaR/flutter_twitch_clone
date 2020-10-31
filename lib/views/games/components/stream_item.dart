@@ -1,12 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:twitch_clone/models/models.dart';
-import 'package:twitch_clone/widgets/badge.dart';
 import 'package:twitch_clone/widgets/widgets.dart';
 
 class StreamItem extends StatelessWidget {
   final GameStream stream;
 
+  final Color color = Color.fromARGB(255, 145, 70, 255);
+
   StreamItem({this.stream, Key key}) : super(key: key);
+
+  List<Widget> _getTags(List<Tag> tags) {
+    return tags.map((Tag tag) =>
+        Padding(
+          padding: const EdgeInsets.only(top: 4.0, right: 4.0),
+          child: TagChip(
+            key: Key(tag.tagId),
+            tag: tag.name,
+            color: color,
+            labelColor: CupertinoColors.label.darkColor,
+          ),
+        )).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +31,7 @@ class StreamItem extends StatelessWidget {
         Stack(
           children: [
             Container(
-              child: Image.network(stream.preview.large),
+              child: Image.network(stream.thumbnailUrl),
               width: width,
             ),
             Positioned(
@@ -35,7 +49,7 @@ class StreamItem extends StatelessWidget {
               child: Badge(
                 color: Color.fromRGBO(0, 0, 0, 0.5),
                 labelColor: CupertinoColors.label.darkColor,
-                label: '${stream.viewers} viewers',
+                label: '${stream.viewerCount} viewers',
               ),
             )
           ],
@@ -48,9 +62,11 @@ class StreamItem extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: CircularImage(
-                  stream.channel.logo,
+                  stream.user.profileImageUrl,
                   // TODO Move to theme
-                  borderColor: Color.fromARGB(255, 145, 70, 255),
+                  borderColor: color,
+                  width: 68.0,
+                  height: 68.0,
                 ),
               ),
               Flexible(
@@ -59,8 +75,11 @@ class StreamItem extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(stream.channel.name),
-                      Text(stream.channel.status),
+                      Text(stream.user.displayName),
+                      Text(stream.title),
+                      Wrap(
+                        children: _getTags(stream.tagList),
+                      )
                     ],
                   ),
                 ),

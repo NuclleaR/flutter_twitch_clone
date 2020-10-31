@@ -32,6 +32,7 @@ dependencies:
   http: ^0.12.2
   json_annotation: ^3.0.0
   shared_preferences: ^0.5.12+2
+  path_provider: ^1.6.22
 #  oauth2: ^1.6.3
 #  url_launcher: ^5.7.5
 #  uni_links: ^0.4.0

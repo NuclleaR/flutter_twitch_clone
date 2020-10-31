@@ -97,7 +97,7 @@ class TokenManager {
     return {
       'Authorization': isLegacy ? 'OAuth ' : 'Bearer ' + token,
       'Client-Id': _client.clientId,
-      'Accept': 'application/vnd.twitchtv.v5+json',
+      'Accept': isLegacy ? 'application/vnd.twitchtv.v5+json' : 'application/json',
     };
   }
 

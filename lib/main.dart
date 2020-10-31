@@ -23,7 +23,6 @@ void main() async {
       authStatus = AuthStatus.authenticated;
     }
   }
-
   runApp(MyApp(authStatus));
 }
 
@@ -35,6 +34,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    CacheManager('tags.json');
+
     return CupertinoApp(
       theme: CupertinoThemeData(),
         title: 'Flutter Demo',

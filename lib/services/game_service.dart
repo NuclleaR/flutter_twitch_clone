@@ -19,11 +19,9 @@ class GameService {
       Response response = await get(
           Uri.parse(apiUrl)
               .replace(queryParameters: queryParameters),
-          headers: tokenManager.getHeaders());
+          headers: tokenManager.getHeaders(isLegacy: true));
 
       var rawResponse = jsonDecode(response.body);
-
-      // print('body: ${response.body}');
 
       if (response.statusCode == HttpStatus.ok) {
         var list = rawResponse['top'] as List;
@@ -35,7 +33,6 @@ class GameService {
               return Game.fromJson(json);
             }).toList();
         return GamesResponse(list: games, total: rawResponse['_total']);
-        // return GamesResponse(games, rawResponse['pagination']['cursor']);
       } else {
         throw HttpException(rawResponse['message']);
       }

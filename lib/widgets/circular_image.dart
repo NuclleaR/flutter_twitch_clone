@@ -20,8 +20,8 @@ class CircularImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 68.0,
-      height: 68.0,
+      width: width,
+      height: height,
       decoration: new BoxDecoration(
           shape: BoxShape.circle,
           border: border,
